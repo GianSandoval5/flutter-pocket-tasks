@@ -12,17 +12,20 @@ void main() {
   );
   tearDownAll(client.close);
 
-  test('real MobileLab Data API supports task creation, updates and deletion', () async {
-    final task = Task(
-      id: 'dart-integration-task',
-      title: 'Comprobar MobileLab',
-      createdAt: DateTime.utc(2026),
-    );
-    await repository.save(task);
-    expect((await repository.load()).single.title, task.title);
-    await repository.save(task.copyWith(completed: true));
-    expect((await repository.load()).single.completed, isTrue);
-    await repository.delete(task.id);
-    expect(await repository.load(), isEmpty);
-  });
+  test(
+    'real MobileLab Data API supports task creation, updates and deletion',
+    () async {
+      final task = Task(
+        id: 'dart-integration-task',
+        title: 'Comprobar MobileLab',
+        createdAt: DateTime.utc(2026),
+      );
+      await repository.save(task);
+      expect((await repository.load()).single.title, task.title);
+      await repository.save(task.copyWith(completed: true));
+      expect((await repository.load()).single.completed, isTrue);
+      await repository.delete(task.id);
+      expect(await repository.load(), isEmpty);
+    },
+  );
 }

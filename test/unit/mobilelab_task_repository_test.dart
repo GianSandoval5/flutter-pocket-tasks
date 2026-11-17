@@ -39,21 +39,30 @@ void main() {
     await repo.save(task);
   });
 
-  test('DELETE accepts an already missing item for an idempotent retry', () async {
-    final repo = repository((request) async {
-      expect(request.method, 'DELETE');
-      expect(request.url.path, '/api/tasks/one');
-      return http.Response('', 404);
-    });
-    await repo.delete('one');
-  });
+  test(
+    'DELETE accepts an already missing item for an idempotent retry',
+    () async {
+      final repo = repository((request) async {
+        expect(request.method, 'DELETE');
+        expect(request.url.path, '/api/tasks/one');
+        return http.Response('', 404);
+      });
+      await repo.delete('one');
+    },
+  );
 
-  test('reports server failures instead of silently using local data', () async {
-    final repo = repository((request) async => http.Response('{}', 500));
-    await expectLater(repo.load(), throwsA(isA<MobileLabException>()));
-    await expectLater(repo.save(task), throwsA(isA<MobileLabException>()));
-    await expectLater(repo.delete(task.id), throwsA(isA<MobileLabException>()));
-  });
+  test(
+    'reports server failures instead of silently using local data',
+    () async {
+      final repo = repository((request) async => http.Response('{}', 500));
+      await expectLater(repo.load(), throwsA(isA<MobileLabException>()));
+      await expectLater(repo.save(task), throwsA(isA<MobileLabException>()));
+      await expectLater(
+        repo.delete(task.id),
+        throwsA(isA<MobileLabException>()),
+      );
+    },
+  );
 
   test('rejects malformed collection responses', () async {
     final repo = repository((request) async => http.Response('{}', 200));
@@ -73,7 +82,11 @@ void main() {
   });
 
   test('rejects credentials and resource paths in the sandbox base URL', () {
-    for (final url in ['file:///tmp/data', 'http://user:secret@localhost', 'http://localhost/api/tasks']) {
+    for (final url in [
+      'file:///tmp/data',
+      'http://user:secret@localhost',
+      'http://localhost/api/tasks',
+    ]) {
       expect(
         () => MobileLabTaskRepository(
           client: MockClient((request) async => http.Response('[]', 200)),

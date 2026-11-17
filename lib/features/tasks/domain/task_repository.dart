@@ -5,4 +5,3 @@ abstract interface class TaskRepository {
   Future<void> save(Task task);
   Future<void> delete(String id);
 }
-

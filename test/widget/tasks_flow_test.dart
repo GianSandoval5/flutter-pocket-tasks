@@ -41,4 +41,3 @@ void main() {
     expect(controller.tasks, isEmpty);
   });
 }
-

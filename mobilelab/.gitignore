@@ -5,3 +5,5 @@
 *.log
 *.pid
 state.json
+
+.state.json

@@ -27,4 +27,3 @@ class MemoryTaskRepository implements TaskRepository {
     data.remove(id);
   }
 }
-

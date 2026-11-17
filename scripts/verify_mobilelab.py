@@ -28,7 +28,7 @@ def verify():
         if count != 1:
             raise SystemExit("Unable to configure the isolated sandbox port.")
         (sandbox / "mobilelab.yaml").write_text(config)
-        shutil.copytree(ROOT / "mobilelab", sandbox / "mobilelab", ignore=shutil.ignore_patterns("*.db", "*.db-*", "*.log", "state.json"))
+        shutil.copytree(ROOT / "mobilelab", sandbox / "mobilelab", ignore=shutil.ignore_patterns("*.db", "*.db-*", "*.log", "state.json", ".state.json"))
         base = f"http://127.0.0.1:{port}"
 
         def request(path, method="GET", document=None):

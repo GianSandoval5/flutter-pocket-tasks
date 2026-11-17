@@ -61,4 +61,3 @@ class TaskController extends ChangeNotifier {
     _tasks = _tasks.where((item) => item.id != task.id).toList();
   });
 }
-

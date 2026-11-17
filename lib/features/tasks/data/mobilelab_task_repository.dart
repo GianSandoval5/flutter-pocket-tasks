@@ -44,13 +44,17 @@ class MobileLabTaskRepository implements TaskRepository {
 
   @override
   Future<List<Task>> load() async {
-    final response = await client.get(_uri(), headers: headers).timeout(timeout);
+    final response = await client
+        .get(_uri(), headers: headers)
+        .timeout(timeout);
     if (response.statusCode != 200) {
       throw MobileLabException(response.statusCode);
     }
     final documents = jsonDecode(response.body);
     if (documents is! List) {
-      throw const FormatException('MobileLab debe devolver una lista de tareas.');
+      throw const FormatException(
+        'MobileLab debe devolver una lista de tareas.',
+      );
     }
     return documents.map((document) {
       if (document is! Map) {
@@ -63,7 +67,11 @@ class MobileLabTaskRepository implements TaskRepository {
   @override
   Future<void> save(Task task) async {
     final response = await client
-        .put(_uri(task.id), headers: headers, body: jsonEncode(TaskDto.toJson(task)))
+        .put(
+          _uri(task.id),
+          headers: headers,
+          body: jsonEncode(TaskDto.toJson(task)),
+        )
         .timeout(timeout);
     if (response.statusCode != 200 && response.statusCode != 201) {
       throw MobileLabException(response.statusCode);

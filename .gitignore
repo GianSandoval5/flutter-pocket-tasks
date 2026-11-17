@@ -54,3 +54,5 @@ mobilelab/*.sqlite*
 mobilelab/*.log
 mobilelab/state.json
 __pycache__/
+
+mobilelab/.state.json

@@ -1,4 +1,5 @@
 import 'package:material_ui/material_ui.dart';
+
 import 'dart:async';
 
 import 'package:http/http.dart' as http;
@@ -384,4 +385,3 @@ class _TaskEditorState extends State<TaskEditor> {
     ],
   );
 }
-
