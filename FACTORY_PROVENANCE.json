@@ -1,0 +1,43 @@
+{
+  "schema": 1,
+  "owner": "GianSandoval5",
+  "request": {
+    "repo_name": "flutter-pocket-tasks",
+    "app_name": "pocket_tasks",
+    "project_dir": "projects/pocket-tasks",
+    "description": "Gestor de tareas offline con Flutter, Hive, arquitectura por funcionalidades y pruebas unitarias."
+  },
+  "source_sha": "717108c0a707b0de7ccaa0dea6abc1512412551d",
+  "run_url": "https://github.com/GianSandoval5/mobile-ai-factory/actions/runs/44002837416",
+  "sdk": {
+    "frameworkVersion": "3.50.0",
+    "channel": "stable",
+    "repositoryUrl": "https://github.com/flutter/flutter.git",
+    "frameworkRevision": "ab2912035e160d9cad6306df307576da6128ebdb",
+    "frameworkCommitDate": "2026-11-09 08:50:21 -0800",
+    "engineRevision": "371f77202a73e8dff57a8b3bff75bca55c090aee",
+    "engineCommitDate": "2026-11-09 15:57:36.000Z",
+    "engineContentHash": "bf601093ad255aaf5c6d0fc5c4f9acfa60943b2a",
+    "engineBuildDate": "2026-11-09 08:33:19.494",
+    "dartSdkVersion": "3.14.0",
+    "devToolsVersion": "2.61.0",
+    "flutterVersion": "3.50.0",
+    "flutterRoot": "/opt/hostedtoolcache/flutter/stable-3.50.0-x64/flutter"
+  },
+  "tests_passed": 12,
+  "coverage_lines": {
+    "hit": 197,
+    "found": 230
+  },
+  "analysis": "passed",
+  "build": {
+    "kind": "android-debug-apk",
+    "status": "passed"
+  },
+  "dependency_audit": {
+    "provider": "OSV",
+    "hosted_packages_checked": 52,
+    "vulnerabilities": []
+  },
+  "source_digest": "132c0a6cf39cf102b6b49ed641650ecb189c9aaf552587351d728ab02d679b4a"
+}
