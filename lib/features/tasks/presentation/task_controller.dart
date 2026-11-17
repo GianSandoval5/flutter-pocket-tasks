@@ -36,7 +36,7 @@ class TaskController extends ChangeNotifier {
       await action();
       return true;
     } catch (_) {
-      error = 'No pudimos guardar o leer tus tareas. Inténtalo nuevamente.';
+      error = 'No pudimos acceder a las tareas. Comprueba que MobileLab esté iniciado y que MOBILELAB_URL sea accesible.';
       return false;
     } finally {
       busy = false;
