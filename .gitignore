@@ -46,3 +46,11 @@ app.*.map.json
 
 # Widget Preview related
 .widget_preview/
+
+
+# MobileLab development databases and generated state
+mobilelab/*.db*
+mobilelab/*.sqlite*
+mobilelab/*.log
+mobilelab/state.json
+__pycache__/

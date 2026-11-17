@@ -4,10 +4,13 @@ on:
   pull_request:
 permissions:
   contents: read
+concurrency:
+  group: flutter-ci-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   flutter:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v5
         with:
@@ -19,10 +22,29 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           channel: stable
+          flutter-version: '3.50.0'
       - run: flutter pub get
-      - run: dart format --output=none --set-exit-if-changed lib test
+      - run: python3 scripts/update_notices.py
+      - name: Check Dart formatting
+        run: |
+          dart format lib test tool
+          git diff --exit-code -- lib test tool pubspec.lock THIRD_PARTY_NOTICES.md
       - run: flutter analyze
       - run: flutter test --coverage
+      - name: Install verified MobileLab 1.1.0
+        run: |
+          curl --fail --silent --show-error --location --retry 3 https://github.com/GianSandoval5/MobileLab/releases/download/v1.1.0/mobilelab-linux-amd64 -o "$RUNNER_TEMP/mobilelab"
+          python3 - <<'PY'
+          import hashlib, os
+          from pathlib import Path
+          binary = Path(os.environ['RUNNER_TEMP']) / 'mobilelab'
+          assert hashlib.sha256(binary.read_bytes()).hexdigest() == '263305e2a0168d01af3334b5a62029e85bf0b319c20d343b35f4b3573459f953', 'MobileLab checksum mismatch'
+          binary.chmod(0o755)
+          PY
+      - name: Verify real CRUD and persistence after restart
+        env:
+          MOBILELAB_BIN: ${{ runner.temp }}/mobilelab
+        run: python3 scripts/verify_mobilelab.py
       - run: flutter build apk --debug
       - uses: actions/upload-artifact@v4
         with:

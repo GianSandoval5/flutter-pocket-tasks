@@ -32,3 +32,4 @@ void main() {
     expect(TaskDto.toJson(decoded), TaskDto.toJson(original));
   });
 }
+

@@ -1,0 +1,6 @@
+schema_version: 1
+resources:
+  tasks:
+    path: /api/tasks
+    id: id
+    seed: seeds/tasks.json

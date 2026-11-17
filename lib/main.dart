@@ -1,34 +1,22 @@
 import 'package:material_ui/material_ui.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'dart:async';
 
-import 'features/tasks/data/hive_task_repository.dart';
+import 'package:http/http.dart' as http;
+
+import 'core/api_config.dart';
+import 'features/tasks/data/mobilelab_task_repository.dart';
 import 'features/tasks/domain/task.dart';
 import 'features/tasks/presentation/task_controller.dart';
 
-Future<void> main() async {
+void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  try {
-    await Hive.initFlutter();
-    final box = await Hive.openBox<dynamic>('pocket_tasks_v1');
-    final controller = TaskController(HiveTaskRepository(box));
-    await controller.load();
-    runApp(PocketTasksApp(controller: controller));
-  } catch (_) {
-    runApp(
-      const MaterialApp(
-        home: Scaffold(
-          body: Center(
-            child: Padding(
-              padding: EdgeInsets.all(24),
-              child: Text(
-                'No pudimos abrir el almacenamiento local. Cierra y vuelve a abrir la app.',
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
+  final repository = MobileLabTaskRepository(
+    client: http.Client(),
+    baseUri: ApiConfig.baseUri,
+  );
+  final controller = TaskController(repository);
+  runApp(PocketTasksApp(controller: controller));
+  unawaited(controller.load());
 }
 
 class PocketTasksApp extends StatelessWidget {
@@ -181,7 +169,7 @@ class _TasksHomeState extends State<TasksHome> {
           style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 8),
-        const Text('Tu progreso se queda contigo, en este dispositivo.'),
+        const Text('Tus tareas se guardan en la base SQLite de MobileLab.'),
         const SizedBox(height: 32),
         LinearProgressIndicator(
           value: total == 0 ? 0 : done / total,
@@ -245,7 +233,7 @@ class _TasksHomeState extends State<TasksHome> {
                               Icon(Icons.offline_bolt_outlined, size: 64),
                               SizedBox(height: 24),
                               Text(
-                                'Simple. Local. Tuyo.',
+                                'Tu app. Tu sandbox.',
                                 style: TextStyle(
                                   fontSize: 28,
                                   fontWeight: FontWeight.bold,
@@ -253,11 +241,11 @@ class _TasksHomeState extends State<TasksHome> {
                               ),
                               SizedBox(height: 16),
                               Text(
-                                'Crea, edita y organiza tus tareas sin conexión. Los datos se guardan con Hive y permanecen al cerrar la app.',
+                                'Crea, edita y organiza tus tareas mediante MobileLab. Los datos viven en su base SQLite y permanecen al reiniciar el servicio.',
                               ),
                               SizedBox(height: 16),
                               Text(
-                                'Sin cuenta, sincronización ni backend. Desinstalar la app o borrar sus datos elimina las tareas locales.',
+                                'Inicia MobileLab en tu ordenador antes de usar la app. La configuración incluida es un sandbox local de desarrollo, sin cuentas ni sincronización cloud.',
                               ),
                               SizedBox(height: 32),
                               Text(
@@ -396,3 +384,4 @@ class _TaskEditorState extends State<TaskEditor> {
     ],
   );
 }
+

@@ -17,3 +17,4 @@ class TaskDto {
     createdAt: DateTime.parse(json['createdAt'] as String),
   );
 }
+

@@ -32,3 +32,4 @@ class Task {
         createdAt: createdAt,
       );
 }
+
